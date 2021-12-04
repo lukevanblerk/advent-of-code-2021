@@ -9,7 +9,7 @@ namespace AdventOfCode.Solvers
     {
         private readonly int _day;
         
-        public string ResourceName => $"AdventOfCode.day._{1}.input";
+        public string ResourceName => $"AdventOfCode.day._{_day}.input";
         
         public Input(int day)
         {
@@ -18,9 +18,14 @@ namespace AdventOfCode.Solvers
 
         public int[] AsArrayOfInt()
         {
-            var input = AsText().Split(new[] { "\n" }, StringSplitOptions.None);
+            var input = AsArrayOfString();
 
             return input.Select(i => Convert.ToInt32(i)).ToArray();
+        }
+
+        public string[] AsArrayOfString()
+        {
+            return AsText().Split(new[] { "\n" }, StringSplitOptions.None);
         }
 
         public string AsText()
