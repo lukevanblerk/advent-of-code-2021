@@ -12,29 +12,42 @@ namespace AdventOfCode.Solvers.Day4
 
             var boards = CreateBingoBoards(input);
             
-            
-            int score = RunGame(bingoNumbers, boards);
+            RunGame(bingoNumbers, boards, out int firstWinnerScore, out int lastWinnerScore);
 
-            return score.ToString();
+            return firstWinnerScore.ToString();
         }
 
-        private int RunGame(int[] bingoNumbers, BingoBoard[] boards)
+        public string SolvePart2(Input input)
         {
+            var bingoNumbers = CreateBingoNumbers(input);
+
+            var boards = CreateBingoBoards(input);
+            
+            RunGame(bingoNumbers, boards, out int firstWinnerScore, out int lastWinnerScore);
+
+            return lastWinnerScore.ToString();
+        }
+
+        private void RunGame(int[] bingoNumbers, BingoBoard[] boards, out int firstWinnerScore, out int lastWinnerScore)
+        {
+            firstWinnerScore = 0;
+            lastWinnerScore = 0;
+            
             foreach (var bingoNumber in bingoNumbers)
             {
-                foreach (var bingoBoard in boards)
+                foreach (var bingoBoard in boards.Where(b => !b.IsWinner()))
                 {
                     bingoBoard.MarkNumber(bingoNumber);
                     if (bingoBoard.IsWinner())
                     {
-                        var score = bingoBoard.SumUnmarked() * bingoNumber;
-                        
-                        return score;
+                        if (firstWinnerScore == 0)
+                        {
+                            firstWinnerScore = bingoBoard.SumUnmarked() * bingoNumber;
+                        }
+                        lastWinnerScore = bingoBoard.SumUnmarked() * bingoNumber;
                     }
                 }
             }
-
-            return 0;
         }
 
         private int[] CreateBingoNumbers(Input input)
@@ -55,11 +68,6 @@ namespace AdventOfCode.Solvers.Day4
             }
 
             return boards.ToArray();
-        }
-
-        public string SolvePart2(Input input)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
