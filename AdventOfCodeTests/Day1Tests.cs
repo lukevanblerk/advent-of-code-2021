@@ -27,5 +27,18 @@ namespace AdventOfCode
             // Assert
             Console.WriteLine(result);
         }
+
+        [Test]
+        public void TestPart2()
+        {
+            // Arrange
+            var input = new Input(day: 1);
+            
+            // Act
+            var result = _solver.SolvePart2(input);
+            
+            // Assert
+            Console.WriteLine(result);
+        }
     }
 }
