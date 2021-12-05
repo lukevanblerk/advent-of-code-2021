@@ -18,6 +18,18 @@ namespace AdventOfCode.Solvers.Day5
         public bool IsHorizontal => Y1 == Y2;
         public bool IsVertical => X1 == X2;
 
+        public bool Is45Degress => (FinishX - StartX) == (FinishY - StartY);
+
+        private int StartX => Math.Min(X1, X2);
+        private int FinishX => Math.Max(X1, X2);
+        private int StartY => Math.Min(Y1, Y2);
+        private int FinishY => Math.Max(Y1, Y2);
+
+        private bool IsDownLeft => Y1 < Y2 && X1 > X2;
+        private bool IsDownRight => Y1 < Y2 && X1 < X2;
+        private bool IsUpLeft => Y1 > Y2 && X1 > X2;
+        private bool IsUpRight => Y1 > Y2 && X1 < X2;
+
         private IList<Point> _points;
         
         public IList<Point> Points => _points;
@@ -38,31 +50,74 @@ namespace AdventOfCode.Solvers.Day5
 
         private void CreatePoints()
         {
-            if (IsDiagonal)
-            {
-                return;
-            }
             _points = new List<Point>();
+            if (IsDiagonal && Is45Degress)
+            {
+                if (IsDownLeft)
+                {
+                    CreateDownLeftPoints();
+                }
+                else if (IsDownRight)
+                {
+                    CreateDownRightPoints();
+                }
+                else if (IsUpLeft)
+                {
+                    CreateUpLeftPoints();
+                }
+                else if (IsUpRight)
+                {
+                    CreateUpRightPoints();
+                }
+            }
             if (IsHorizontal)
             {
-                var startX = Math.Min(X1, X2);
-                var finishX = Math.Max(X1, X2);
-                for (var x = startX; x <= finishX; x++)
+                for (var x = StartX; x <= FinishX; x++)
                 {
                     _points.Add(new Point(x, Y1));
                 }
-            } 
+            }
             else if (IsVertical)
             {
-                var startY = Math.Min(Y1, Y2);
-                var finishY = Math.Max(Y1, Y2);
-                for (var y = startY; y <= finishY; y++)
+                for (var y = StartY; y <= FinishY; y++)
                 {
                     _points.Add(new Point(X1, y));
                 }
             }
         }
 
+        private void CreateDownLeftPoints()
+        {
+            for (int x = X1, y = Y1; x >= X2; x--, y++)
+            {
+                _points.Add(new Point(x, y));
+            }
+        }
+
+        private void CreateDownRightPoints()
+        {
+            for (int x = X1, y = Y1; x <= X2; x++, y++)
+            {
+                _points.Add(new Point(x, y));
+            }
+        }
+
+        private void CreateUpRightPoints()
+        {
+            for (int x = X1, y = Y1; x <= X2; x++, y--)
+            {
+                _points.Add(new Point(x, y));
+            }
+        }
+
+        private void CreateUpLeftPoints()
+        {
+            for (int x = X1, y = Y1; x >= X2; x--, y--)
+            {
+                _points.Add(new Point(x, y));
+            }
+        }
+        
         public override string ToString()
         {
             return _line;
