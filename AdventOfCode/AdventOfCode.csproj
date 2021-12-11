@@ -17,6 +17,15 @@
     <EmbeddedResource Include="day\5\input" />
     <None Remove="day\6\input" />
     <EmbeddedResource Include="day\6\input" />
+    <None Remove="day\7\input" />
+    <EmbeddedResource Include="day\7\input" />
+    <None Remove="day\8\input" />
+    <EmbeddedResource Include="day\8\input" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="day\7" />
+    <Folder Include="day\8" />
   </ItemGroup>
 
 </Project>

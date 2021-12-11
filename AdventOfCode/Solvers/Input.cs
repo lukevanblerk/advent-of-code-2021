@@ -28,6 +28,15 @@ namespace AdventOfCode.Solvers
             return AsText().Split(new[] { "\n" }, StringSplitOptions.None);
         }
 
+        public int[] FirstLineAsArrayOfInt()
+        {
+            var firstLine = AsArrayOfString().First();
+            
+            return firstLine.Split(new[] { "," }, StringSplitOptions.None).Select(i => Convert.ToInt32(i)).ToArray();
+            
+            
+        }
+
         public string AsText()
         {
             string result;
